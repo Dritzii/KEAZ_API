@@ -49,36 +49,83 @@ class keaz:
     def bookings(self):
         number = input("enter your booking number: ")
         temp = self.baseurl + "booking/" + str(number)
-        res = req.get(temp,headers = self.headers)
-        res_json = res.json()
-        return(res_json)
+        try:
+            res = req.get(temp,headers = self.headers)
+            if res.status_code in [200,'200']:
+                print("Success {}".format(str(res.status_code)))
+                return(res.json())
+            elif res.status_code in [400,'400']:
+                print("Error {}".format(str(res.status_code)))
+                return False
+            else:
+                print("Error Code {}".format(str(res.status_code)))
+        except:
+            print("Error {}".format(str(res.status_code)))
     def branches(self):
         print("Please enter your Branch number to trace: ")
         a = input()
         temp = self.baseurl + "branch/" + str(a)
-        res = req.get(temp, headers = self.headers)
-        res_json = res.json()
+        try:
+            res = req.get(temp,headers = self.headers)
+            if res.status_code in [200,'200']:
+                print("Success {}".format(str(res.status_code)))
+                return(res.json())
+            elif res.status_code in [400,'400']:
+                print("Error {}".format(str(res.status_code)))
+                return False
+            else:
+                print("Error Code {}".format(str(res.status_code)))
+        except:
+            print("Error {}".format(str(res.status_code)))
     def companies(self):
         print("Please enter your Company number to trace: ")
         a = input()
         temp = self.baseurl + "company/" + str(a)
-        res = req.get(temp,headers = self.headers)
-        res_json = res.json()
+        try:
+            res = req.get(temp,headers = self.headers)
+            if res.status_code in [200,'200']:
+                print("Success {}".format(str(res.status_code)))
+                return(res.json())
+            elif res.status_code in [400,'400']:
+                print("Error {}".format(str(res.status_code)))
+                return False
+            else:
+                print("Error Code {}".format(str(res.status_code)))
+        except:
+            print("Error {}".format(str(res.status_code)))
         
     def users(self):
         a = input("Enter the User ID: ")
         temp = self.baseurl + "users/" + str(a)
-        res = req.get(temp,headers = self.headers)
-        res_json = res.json()
+        try:
+            res = req.get(temp,headers = self.headers)
+            if res.status_code in [200,'200']:
+                print("Success {}".format(str(res.status_code)))
+                return(res.json())
+            elif res.status_code in [400,'400']:
+                print("Error {}".format(str(res.status_code)))
+                return False
+            else:
+                print("Error Code {}".format(str(res.status_code)))
+        except:
+            print("Error {}".format(str(res.status_code)))
     def getdata(self):
         a = input("enter your endpoint: ")
         temp = self.baseurl + str(a)
-        res = req.get(temp,headers = self.headers)
-        res_json = res.json()
+        try:
+            res = req.get(temp,headers = self.headers)
+            if res.status_code in [200,'200']:
+                print("Success {}".format(str(res.status_code)))
+                return(res.json())
+            elif res.status_code in [400,'400']:
+                print("Error {}".format(str(res.status_code)))
+                return False
+            else:
+                print("Error Code {}".format(str(res.status_code)))
+        except:
+            print("Error {}".format(str(res.status_code)))
 
-
-
-def main(self):
+def main():
         pass
         ## used for testing functions
 
