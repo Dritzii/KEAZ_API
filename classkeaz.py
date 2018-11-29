@@ -25,8 +25,9 @@ class config:
                    'app_name': 'Johns Script',
                    'version': '1.40.0',
                    'device_type': 'SCRIPT'}
+        ur = input("Enter your ur for Keaz API: ")
         pw = input("Enter your password for Keaz API: ")
-        form = {'email': 'john@keaz.co',
+        form = {'email': ur,
                 'password': pw}
         url = self.api_base + 'login'
         print(headers)
