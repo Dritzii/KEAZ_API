@@ -3,7 +3,6 @@ write a class based on KEAZ API for use
 Author: John Pham
 
 """
-
 import requests
 
 
@@ -18,16 +17,14 @@ class config:
             raise Exception
         self.headers = {'X-Source-Host': self.host,
                         'token': self.token}
-
     def login(self):
         print('Logging in')
         headers = {'X-Source-Host': self.host,
                    'app_name': 'Johns Script',
                    'version': '1.40.0',
                    'device_type': 'SCRIPT'}
-        ur = input("Enter your ur for Keaz API: ")
         pw = input("Enter your password for Keaz API: ")
-        form = {'email': ur,
+        form = {'email': 'john@keaz.co',
                 'password': pw}
         url = self.api_base + 'login'
         print(headers)
@@ -40,11 +37,10 @@ class config:
                 return False
             else:
                 self.token = res.json()['token']
-                print('Successful Log In')
-                return True
+                print('Successful Log In status code: {}'.format(str(res.status_code)))
+                return res.json()
         except:
-            print('Failed to generate Login Request')
-### getters 
+            print('Failed to generate Login Request') 
     def getanything(self): 
         a = input("getting anything you ask for after/   <-  ")
         url = self.api_base + a
@@ -61,7 +57,6 @@ class config:
                 print("try again")
         except:
             print("no can do man")
-
     def getbookings(self):
         a = input("Enter the booking number: ")
         url = self.api_base + 'booking/' + a
@@ -78,7 +73,6 @@ class config:
                 print("no can do")
         except:
             print("sorry status code {}".format(str(r.status_code)))
-
     def get_branches(self):
         url = self.api_base + 'branches'
         try:
@@ -93,7 +87,6 @@ class config:
                 print("no no no {}".format(str(r.status_code)))
         except:
             print("No can Do")
-
     def get_users(self):
         url = self.api_base + 'users'
         try:
@@ -108,7 +101,6 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-
     def get_vehicles(self):
         url = self.api_base + 'vehicles'
         try:
@@ -123,7 +115,6 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-
     def get_costcentres(self):
         url = self.api_base + 'cost-centres'
         try:
@@ -138,7 +129,6 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-
     def get_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -153,8 +143,6 @@ class config:
                 print("status code {}".format(str(r.status_code)))
         except:
             print("error")
-# modifying a user ## mutators
-
     def create_user(self, name, email, idnumb, contactnumber,
                  licensenumber, licenseexpmonth, licenseexpiryyear,
                  licensetype, liensecountry, ccid, activatedviacompanyid):
@@ -185,8 +173,6 @@ class config:
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(res.status_code)))
-# creating a booking
-
     def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose):
         temp_url = self.api_base + 'booking'
         payload = {
@@ -229,43 +215,40 @@ class config:
                 return False
         except:
             print('failed to update: ' + ' ' + str(post.status_code))
-
-# create to vehicles
-
-    def create_vehicle(self):
+    def create_vehicle(self, reg,year,trans,seat,fueltype,name,assetno,keyno,bodycolor,licensetype,kmstart,kmcurrent,availweekend,availafter,comments,vehiclecost,costtype):
         a = input("enter the enpoint for your vehicle: ")
-        url = self.api_base + "vehicle/" + str(a)
+        url = self.api_base + "vehicle/" + a
         body = {
-                "registration": '',
-                "year": '',
-                "transmission": '',
-                "seat_number": '',
-                "fuel_type": '',
-                "name": '',
-                "asset_no": '',
-                "key_no": '',
-                "body_colour": '',
-                "license_type": '',
-                "kms_start": '',
-                "kms_current": '',
-                "availability_weekend": '',
-                "availability_afterhours": '',
-                "comments": '',
-                "vehicle_cost": '',
-                "vehicle_cost_type": ''
+                "registration": reg,
+                "year": year,
+                "transmission": trans,
+                "seat_number": seat,
+                "fuel_type": fueltype,
+                "name": name,
+                "asset_no": assetno,
+                "key_no": keyno,
+                "body_colour": bodycolor,
+                "license_type": licensetype,
+                "kms_start": kmstart,
+                "kms_current": kmcurrent,
+                "availability_weekend": availweekend,
+                "availability_afterhours": availafter,
+                "comments": comments,
+                "vehicle_cost": vehiclecost,
+                "vehicle_cost_type": costtype
         }
         try:
-            res = requests.put(url, headers=self.headers, json=body)
+            res = requests.post(url, headers=self.headers, json=body)
             if res.status_code in [200, '200', 201, '201']:
                 print("success")
+                return res.json()
             elif res.status_code in [401, '401', '400', 400]:
                 print("not successful")
+                return False
             else:
                 print("failed to update data")
         except:
             print("Failed")
-# creating a new branch
-
     def create_branch(self, name, slug, address, lat, long, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
@@ -292,7 +275,6 @@ class config:
                 print("status code: {}".format(str(res.status_code)))
         except:
             print("check script")
-## create cost centre
     def create_cc(self,name,code):
         url = self.api_base + 'cost-centre'
         body = {
@@ -311,8 +293,6 @@ class config:
                 print("status code: {}".format(str(res.status_code)))
         except:
             print("check script")
-
-# single update to key, values for vehicles
     def update_vehicle(self, reg,year,trans,seat,fueltype,name,assetno,keyno,bodycolor,licensetype,kmstart,kmcurrent,availweekend,availafter,comments,vehiclecost,costtype):
         a = input("enter the enpoint for your vehicle: ")
         url = self.api_base + "vehicle/" + a
@@ -346,8 +326,7 @@ class config:
             else:
                 print("failed to update data")
         except:
-            print("Failed")
-# update cost centre            
+            print("Failed")          
     def update_cc(self,name,code):
         url = self.api_base + 'cost-centre'
         body = {
@@ -365,8 +344,7 @@ class config:
             else:
                 print("status code: {}".format(str(res.status_code)))
         except:
-            print("check script")
-### update branch               
+            print("check script")               
     def update_branch(self, name, slug, address, lat, long, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
@@ -392,8 +370,7 @@ class config:
             else:
                 print("status code: {}".format(str(res.status_code)))
         except:
-            print("check script") 
-## update user                     
+            print("check script")                   
     def update_user(self, name, email, idnumb, contactnumber,
                  licensenumber, licenseexpmonth, licenseexpiryyear,
                  licensetype, liensecountry, ccid, activatedviacompanyid):
@@ -425,8 +402,7 @@ class config:
         except:
             print('Status code {}'.format(str(res.status_code)))
     def __str__(self):
-        pass
-
+        return("Data is ".format(self.update_user))
 
 def main():
     config()
