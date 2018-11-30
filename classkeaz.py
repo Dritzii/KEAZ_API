@@ -1,7 +1,6 @@
 """
 write a class based on KEAZ API for use
 Author: John Pham
-
 """
 import requests
 
@@ -17,6 +16,8 @@ class config:
             raise Exception
         self.headers = {'X-Source-Host': self.host,
                         'token': self.token}
+        print(host)
+        print(self.headers)
     def login(self):
         print('Logging in')
         headers = {'X-Source-Host': self.host,
@@ -41,7 +42,7 @@ class config:
                 return res.json()
         except:
             print('Failed to generate Login Request') 
-    def getanything(self): 
+    def get_anything(self): ### getters
         a = input("getting anything you ask for after/   <-  ")
         url = self.api_base + a
         try:
@@ -57,7 +58,7 @@ class config:
                 print("try again")
         except:
             print("no can do man")
-    def getbookings(self):
+    def get_bookings(self):
         a = input("Enter the booking number: ")
         url = self.api_base + 'booking/' + a
         try:
@@ -73,7 +74,7 @@ class config:
                 print("no can do")
         except:
             print("sorry status code {}".format(str(r.status_code)))
-    def get_branches(self):
+    def get_all_branches(self):
         url = self.api_base + 'branches'
         try:
             r = requests.get(url, headers=self.headers)
@@ -87,7 +88,7 @@ class config:
                 print("no no no {}".format(str(r.status_code)))
         except:
             print("No can Do")
-    def get_users(self):
+    def get_all_users(self):
         url = self.api_base + 'users'
         try:
             r = requests.get(url, headers=self.headers)
@@ -101,7 +102,7 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-    def get_vehicles(self):
+    def get_all_vehicles(self):
         url = self.api_base + 'vehicles'
         try:
             r = requests.get(url, headers=self.headers)
@@ -115,7 +116,7 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-    def get_costcentres(self):
+    def get_all_costcentres(self):
         url = self.api_base + 'cost-centres'
         try:
             r = requests.get(url, headers=self.headers)
@@ -129,12 +130,12 @@ class config:
                 print("Something is wrong {}".format(str(r.status_code)))
         except:
             print("next time")
-    def get_companies(self):
+    def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
-                print("Great SUccess, status code {}".format(str(r.status_code)))
+                print("Great Success, status code {}".format(str(r.status_code)))
                 return(r.json())
             elif r.status_code in [400, '400']:
                 print("Error {}".format(str(r.status_code)))
@@ -143,11 +144,25 @@ class config:
                 print("status code {}".format(str(r.status_code)))
         except:
             print("error")
+    def get_all_kits(self):
+        url = self.api_base + 'vehicle/kits'
+        try:
+            r = requests.get(url,headers=self.headers)
+            if r.status_code in [200,'200']:
+                print("Great Success, status code {}".format(str(r.status_code)))
+                return r.json()
+            elif r.status_code in [400,'400']:
+                print("Error: {}".format(str(r.status_code)))
+                return False
+            else:
+                print("error {}".format(str(r.status_code)))
+        except:
+            print("Error status code: {}".format(str(r.status_code)))
     def create_user(self, name, email, idnumb, contactnumber,
                  licensenumber, licenseexpmonth, licenseexpiryyear,
                  licensetype, liensecountry, ccid, activatedviacompanyid):
         a = input("Please tell me who you want to modify:  ")
-        temp = self.api_base + 'user/' + str(a)
+        url = self.api_base + 'user/' + str(a)
         body = {
                 "name": name,
                 "email": email,
@@ -162,7 +177,7 @@ class config:
                 "activated-via-company-id": activatedviacompanyid
         }
         try:
-            res = requests.post(temp, json=body, headers=self.headers)
+            res = requests.post(url, json=body, headers=self.headers)
             if res.status_code in [401, '401']:
                 print('failed to access the resource to update')
                 return False
@@ -173,7 +188,7 @@ class config:
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(res.status_code)))
-    def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose):
+    def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose,starttime,startdate,enddate,endtime):
         temp_url = self.api_base + 'booking'
         payload = {
                 "node_id": "",
@@ -184,7 +199,7 @@ class config:
                 "sub_user_id": "",
                 "cost-centre_id": cost_centre,
                 "trip_type": "Business",
-                "trip_purpose": 'trip_purpose',
+                "trip_purpose": trip_purpose,
                 "trip_purpose_text": "",
                 "branch_id": branch,
                 "recurring_enable": "False",
@@ -196,10 +211,10 @@ class config:
                 "start_timezone_offset": -36000,
                 "end_timezone_offset": -36000,
                 "drop_off_branch_id": branch,
-                "start_time": '09:00',   # todo get value
-                "start_date":  str(date),  # todo get value
-                "end_date": str(date),
-                "end_time": '17:00',
+                "start_time": starttime,   # todo get value
+                "start_date":  startdate,  # todo get value
+                "end_date": enddate,
+                "end_time": endtime,
                 "vehicle_id": vehicle
         }
         print(temp_url)
@@ -345,14 +360,14 @@ class config:
                 print("status code: {}".format(str(res.status_code)))
         except:
             print("check script")               
-    def update_branch(self, name, slug, address, lat, long, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
+    def update_branch(self, name, slug, address, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
                 'name': name,
                 'slug': slug,
                 'address': address,
                 'lat': lat,
-                'long': long,
+                'long': lng,
                 'geohash': geohash,
                 'avaibility_afterhours': avabilityafterhours,
                 'avaibility_weekends': avabilityweekends,
@@ -401,11 +416,51 @@ class config:
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(res.status_code)))
+
+
     def __str__(self):
-        return("Data is ".format(self.update_user))
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
-    config()
+    ## testing code here
+    credentials = config("lwb.keaz.software")
+    print(credentials.get_users())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == "__main__":
