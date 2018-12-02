@@ -7,28 +7,28 @@ import requests
 
 class config:
     def __init__(self, host=None):  # constructor
-        self.api_base = 'http://api.keaz.software/v1/'
+        self.api_base = '://..//'
         if host is None:
-            self.host = 'keaz.keaz.software'
+            self.host = '..'
         else:
             self.host = host
         if not self.login():  # references login(self)
             raise Exception
-        self.headers = {'X-Source-Host': self.host,
-                        'token': self.token}
+        self.headers = {'--': .,
+                        '': .}
         print(host)
         print(self.headers)
 
     def login(self):
         print('Logging in')
-        headers = {'X-Source-Host': self.host,
-                   'app_name': 'Johns Script',
-                   'version': '1.40.0',
-                   'device_type': 'SCRIPT'}
+        headers = {'--': .,
+                   '': ' ',
+                   '': '..',
+                   '': ''}
         #pw = input('Enter your password for Keaz API: ')
-        form = {'email': 'john@keaz.co',
-                'password': 'Aqualite12@'}  # pw}
-        url = self.api_base + 'login'
+        form = {'email': '@.co',
+                'password':   # pw}
+        url = self.api_base + ''
         print(headers)
         print(url)
         try:
