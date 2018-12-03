@@ -5,43 +5,44 @@ Author: John Pham
 import requests
 
 
-class config:
+class config(object):
     def __init__(self, host=None):  # constructor
-        self.api_base = '://..//'
+        self.api_base = 'http://api.keaz.software/v1/'
         if host is None:
-            self.host = '..'
+            self.host = 'keaz.keaz.software'
         else:
             self.host = host
         if not self.login():  # references login(self)
             raise Exception
-        self.headers = {'--': .,
-                        '': .}
+        self.headers = {'X-Source-Host': self.host,
+                        'token': self.token}
         print(host)
         print(self.headers)
 
     def login(self):
         print('Logging in')
-        headers = {'--': .,
-                   '': ' ',
-                   '': '..',
-                   '': ''}
+        headers = {'X-Source-Host': self.host,
+                   'app_name': 'Johns Script',
+                   'version': '1.40.0',
+                   'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
-        form = {'email': '@.co',
-                'password':   # pw}
-        url = self.api_base + ''
+        form = {'email': 'john@keaz.co',
+                'password': 'Aqualite12@'}  # pw}
+        url = self.api_base + 'login'
         print(headers)
         print(url)
         try:
-            res = requests.post(url, headers=headers, json=form)
-            if res.status_code not in [200, '200']:
+            r = requests.post(url, headers=headers, json=form)
+            if r.status_code not in [200, '200']:
                 print('Failed to Login Status Code : {}'.format(
-                    str(res.status_code)))
+                    str(r.status_code)))
                 return False
             else:
-                self.token = res.json()['token']
+                self.token = r.json()['token']
                 print('Successful Log In status code: {}'.format(
-                    str(res.status_code)))
-                return res.json()
+                    str(r.status_code)))
+                print(r.headers)
+                return r.json()
         except:
             print('Failed to generate Login Request')
 
@@ -139,8 +140,8 @@ class config:
         except:
             print('next time')
 
-    def get_all_costcentres(self):
-        url = self.api_base + 'cost-centres'
+    def get_all_costcentr(self):
+        url = self.api_base + 'cost-centr'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -203,17 +204,17 @@ class config:
             'activated-via-company-id': activatedviacompanyid
         }
         try:
-            res = requests.post(url, json=body, headers=self.headers)
-            if res.status_code in [401, '401']:
-                print('failed to access the resource to update')
+            r = requests.post(url, json=body, headers=self.headers)
+            if r.status_code in [401, '401']:
+                print('failed to access the rource to update')
                 return False
-            elif res.status_code in [200, '200']:
+            elif r.status_code in [200, '200']:
                 print('awesome, i have found it')
-                return(res.json())
+                return(r.json())
             else:
                 print('Something is wrong, please check the script')
         except:
-            print('Status code {}'.format(str(res.status_code)))
+            print('Status code {}'.format(str(r.status_code)))
 
     def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose, starttime, startdate, enddate, endtime):
         temp_url = self.api_base + 'booking'
@@ -281,11 +282,11 @@ class config:
             'vehicle_cost_type': costtype
         }
         try:
-            res = requests.post(url, headers=self.headers, json=body)
-            if res.status_code in [200, '200', 201, '201']:
+            r = requests.post(url, headers=self.headers, json=body)
+            if r.status_code in [200, '200', 201, '201']:
                 print('success')
-                return res.json()
-            elif res.status_code in [401, '401', '400', 400]:
+                return r.json()
+            elif r.status_code in [401, '401', '400', 400]:
                 print('not successful')
                 return False
             else:
@@ -293,12 +294,12 @@ class config:
         except:
             print('Failed')
 
-    def create_branch(self, name, slug, address, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
+    def create_branch(self, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
             'name': name,
             'slug': slug,
-            'address': address,
+            'addrs': addrs,
             'lat': lat,
             'long': lng,
             'geohash': geohash,
@@ -308,15 +309,15 @@ class config:
             'business_hours_end': businessend
         }
         try:
-            res = requests.post(url, headers=self.headers, json=body)
-            if res.status_code in [201, '201']:
+            r = requests.post(url, headers=self.headers, json=body)
+            if r.status_code in [201, '201']:
                 print('Success')
-                return(res.json())
-            elif res.status_code in [401, '401']:
-                print('Error {}'.format(str(res.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('Error {}'.format(str(r.status_code)))
                 return False
             else:
-                print('status code: {}'.format(str(res.status_code)))
+                print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
 
@@ -327,26 +328,26 @@ class config:
             'code': code
         }
         try:
-            res = requests.post(url, headers=self.headers, json=body)
-            if res.status_code in [201, '201']:
+            r = requests.post(url, headers=self.headers, json=body)
+            if r.status_code in [201, '201']:
                 print('Success')
-                return(res.json())
-            elif res.status_code in [401, '401']:
-                print('Error {}'.format(str(res.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('Error {}'.format(str(r.status_code)))
                 return False
             else:
-                print('status code: {}'.format(str(res.status_code)))
+                print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
 
-    def create_company(self, name, slug, connum, conemail, address, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
+    def create_company(self, name, slug, connum, conemail, addrs, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
         url = self.api_base + 'company'
         body = {
             'name': name,
             'slug': slug,
             'contact_number': connum,
             'contact_email': conemail,
-            'address': address,
+            'addrs': addrs,
             'lat': lat,
             'long': lng,
             'description': description,
@@ -354,13 +355,13 @@ class config:
             'vehicle_cost': vehiclecost,
             'vehicle_cost_type': costtype,
             'currency': currency,
-            'order_booking_results_by': order,
+            'order_booking_rults_by': order,
             'booking_tolerance': tolerance
         }
         try:
             r = requests.post(url, headers=self.headers, json=body)
             if r.status_code in [201, '201', '200', 200]:
-                print('Successfully created new resource status code {}'.format(
+                print('Successfully created new rource status code {}'.format(
                     str(r.status_code)))
                 return(r.json())
             elif r.status_code in [401, '401', 400, '400']:
@@ -371,7 +372,7 @@ class config:
         except:
             print('error {}'.format(str(r.status_code)))
 
-    def create_anything(self, a):  # a method for creating any resource
+    def create_anything(self, a):  # a method for creating any rource
         url = self.api_base + str(a)
         body = {}
         try:
@@ -411,11 +412,11 @@ class config:
             'vehicle_cost_type': costtype
         }
         try:
-            res = requests.put(url, headers=self.headers, json=body)
-            if res.status_code in [200, '200', 201, '201']:
+            r = requests.put(url, headers=self.headers, json=body)
+            if r.status_code in [200, '200', 201, '201']:
                 print('success')
-                return res.json()
-            elif res.status_code in [401, '401', '400', 400]:
+                return r.json()
+            elif r.status_code in [401, '401', '400', 400]:
                 print('not successful')
                 return False
             else:
@@ -430,24 +431,24 @@ class config:
             'code': code
         }
         try:
-            res = requests.put(url, headers=self.headers, json=body)
-            if res.status_code in [201, '201']:
+            r = requests.put(url, headers=self.headers, json=body)
+            if r.status_code in [201, '201']:
                 print('Success')
-                return(res.json())
-            elif res.status_code in [401, '401']:
-                print('Error {}'.format(str(res.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('Error {}'.format(str(r.status_code)))
                 return False
             else:
-                print('status code: {}'.format(str(res.status_code)))
+                print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
 
-    def update_branch(self, name, slug, address, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
+    def update_branch(self, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
             'name': name,
             'slug': slug,
-            'address': address,
+            'addrs': addrs,
             'lat': lat,
             'long': lng,
             'geohash': geohash,
@@ -457,15 +458,15 @@ class config:
             'business_hours_end': businessend
         }
         try:
-            res = requests.put(url, headers=self.headers, json=body)
-            if res.status_code in [201, '201']:
+            r = requests.put(url, headers=self.headers, json=body)
+            if r.status_code in [201, '201']:
                 print('Success')
-                return(res.json())
-            elif res.status_code in [401, '401']:
-                print('Error {}'.format(str(res.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('Error {}'.format(str(r.status_code)))
                 return False
             else:
-                print('status code: {}'.format(str(res.status_code)))
+                print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
 
@@ -488,26 +489,26 @@ class config:
             'activated-via-company-id': activatedviacompanyid
         }
         try:
-            res = requests.put(temp, json=body, headers=self.headers)
-            if res.status_code in [401, '401']:
-                print('failed to access the resource to update')
+            r = requests.put(temp, json=body, headers=self.headers)
+            if r.status_code in [401, '401']:
+                print('failed to access the rource to update')
                 return False
-            elif res.status_code in [200, '200']:
+            elif r.status_code in [200, '200']:
                 print('awesome, i have found it')
-                return(res.json())
+                return(r.json())
             else:
                 print('Something is wrong, please check the script')
         except:
-            print('Status code {}'.format(str(res.status_code)))
+            print('Status code {}'.format(str(r.status_code)))
 
-    def update_company(self, name, slug, connum, conemail, address, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
+    def update_company(self, name, slug, connum, conemail, addrs, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
         url = self.api_base + 'company'
         body = {
             'name': name,
             'slug': slug,
             'contact_number': connum,
             'contact_email': conemail,
-            'address': address,
+            'addrs': addrs,
             'lat': lat,
             'long': lng,
             'description': description,
@@ -515,13 +516,13 @@ class config:
             'vehicle_cost': vehiclecost,
             'vehicle_cost_type': costtype,
             'currency': currency,
-            'order_booking_results_by': order,
+            'order_booking_rults_by': order,
             'booking_tolerance': tolerance
         }
         try:
             r = requests.put(url, headers=self.headers, json=body)
             if r.status_code in [201, '201', '200', 200]:
-                print('Successfully created new resource status code {}'.format(
+                print('Successfully created new rource status code {}'.format(
                     str(r.status_code)))
                 return(r.json())
             elif r.status_code in [401, '401', 400, '400']:
@@ -531,26 +532,113 @@ class config:
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
-## delete resources
+## delete rources
     def delete_anything(self,a):
-        print("deleting resources now")
+        print("deleting rources now")
         url = self.api_base + str(a)
         user = input("Are you sure? y/n")
-        if user in ['y','yes','ye']:
+        if user in ['y','yes','ye','yeah','yep']:
             r = requests.delete(url,headers=self.headers)
-            print("deleting resources {}".format(str(r.status_code)))
+            print("deleting rources {}".format(str(r.status_code)))
             return(r.status_code)
         else:
-            print("No resources deleted")
+            print("No rources deleted")
             pass
-
 
     def __str__(self):
         pass
 
+class dev(config):      ### dev sub class
+    def __init__(self, host=None):      
+        self.api_base = 'http://api.keaz.io/v1/'
+        if host is None:
+            self.host = 'keaz.keaz.io'
+        else:
+            self.host = host
+        if not self.login():
+            raise Exception
+        self.headers = {'X-Source-Host': self.host,
+                            'token': self.token}
+
+class yoogo(config):
+    def __init__(self, host=None):
+        self.api_base = 'http://api.yoogoshare.com/v1/'
+        if host is None:
+            self.host = 'yoogo2.yoogoshare.com'
+        else:
+            self.host = host
+        if not self.login():
+            raise Exception
+        self.headers = {'X-Source-Host': self.host,
+                        'token': self.token}
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def main():
-    pass  # testing code here
+    data = yoogo()  # testing code here
+    print(data.get_all_companies())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
