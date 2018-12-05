@@ -7,9 +7,9 @@ import requests
 
 class config(object):
     def __init__(self, host=None):  # constructor
-        self.api_base = 'http://api.keaz.software/v1/'
+        self.api_base = 'http:////'
         if host is None:
-            self.host = 'keaz.keaz.software'
+            self.host = '..'
         else:
             self.host = host
         if not self.login():  # references login(self)
@@ -26,8 +26,8 @@ class config(object):
                    'version': '1.40.0',
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
-        form = {'email': 'john@keaz.co',
-                'password': 'Aqualite12@'}  # pw}
+        form = {'email': '',
+                'password': ''}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
