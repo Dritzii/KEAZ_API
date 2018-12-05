@@ -7,15 +7,15 @@ import requests
 
 class config(object):
     def __init__(self, host=None):  # constructor
-        self.api_base = '://../v1/'
+        self.api_base = 'http://api.keaz.software/v1/'
         if host is None:
-            self.host = '..'
+            self.host = 'keaz.keaz.software'
         else:
             self.host = host
         if not self.login():  # references login(self)
             raise Exception
-        self.headers = {'--': .,
-                        '': .}
+        self.headers = {'X-Source-Host': self.host,
+                        'token': self.token}
         print(host)
         print(self.headers)
 
@@ -26,8 +26,8 @@ class config(object):
                    'version': '1.40.0',
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
-        form = {'email': ',
-                'password':   # pw}
+        form = {'email': 'john@keaz.co',
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -61,6 +61,14 @@ class config(object):
                 print('try again')
         except:
             print('no can do man')
+
+    def import_file(self, a):
+        file = open(a, 'r')
+        import csv
+        reader = csv.reader(file)
+        reader.__next__()
+        for each in reader:
+            yield each
 
     def get_companies(self):
         url = self.api_base + 'companies'
@@ -184,6 +192,7 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('Error status code: {}'.format(str(r.status_code)))
+# creating resources below
 
     def create_user(self, name, email, idnumb, contactnumber,
                     licensenumber, licenseexpmonth, licenseexpiryyear,
@@ -388,6 +397,7 @@ class config(object):
                 print('try again')
         except:
             print('no can do man')
+    # update resources below
 
     def update_vehicle(self, reg, year, trans, seat, fueltype, name, assetno, keyno, bodycolor, licensetype, kmstart, kmcurrent, availweekend, availafter, comments, vehiclecost, costtype):
         a = input('enter the enpoint for your vehicle: ')
@@ -432,7 +442,7 @@ class config(object):
         }
         try:
             r = requests.put(url, headers=self.headers, json=body)
-            if r.status_code in [201, '201']:
+            if r.status_code in [200, '200']:
                 print('Success')
                 return(r.json())
             elif r.status_code in [401, '401']:
@@ -459,7 +469,7 @@ class config(object):
         }
         try:
             r = requests.put(url, headers=self.headers, json=body)
-            if r.status_code in [201, '201']:
+            if r.status_code in [200, '200']:
                 print('Success')
                 return(r.json())
             elif r.status_code in [401, '401']:
@@ -521,7 +531,7 @@ class config(object):
         }
         try:
             r = requests.put(url, headers=self.headers, json=body)
-            if r.status_code in [201, '201', '200', 200]:
+            if r.status_code in ['200', 200]:
                 print('Successfully created new rource status code {}'.format(
                     str(r.status_code)))
                 return(r.json())
@@ -532,24 +542,62 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
-## delete rources
-    def delete_anything(self,a):
-        print("deleting rources now")
+# delete rources below
+
+    def delete_anything(self, a):
+        print("deleting resources now")
         url = self.api_base + str(a)
         user = input("Are you sure? y/n")
-        if user in ['y','yes','ye','yeah','yep']:
-            r = requests.delete(url,headers=self.headers)
-            print("deleting rources {}".format(str(r.status_code)))
+        if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
+            r = requests.delete(url, headers=self.headers)
+            print("deleting rources {}".format(str(a)))
             return(r.status_code)
         else:
-            print("No rources deleted")
+            print("No resources deleted")
             pass
+
+    def delete_companies(self, a):
+        print("deleting resources now")
+        url = self.api_base + 'companies/' + str(a)
+        user = input("Are you sure? : y/n")
+        if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
+            r = requests.delete(url, headers=self.headers)
+            print("deleting resources now for {}".format(str(a)))
+            return r.status_code
+        else:
+            print("no resources deleted")
+            return False
+
+    def delete_users(self, a):
+        print("Attempting to delete resources")
+        url = self.api_base + 'users/' + str(a)
+        user = input("Are you sure? : y/n")
+        if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
+            r = requests.delete(url, headers=self.headers)
+            print("deleting resources now for {}".format(str(a)))
+            return r.status_code
+        else:
+            print("no resources deleted")
+            return False
+
+    def delete_vehicles(self, a):
+        print("Attempting to delete resources")
+        url = self.api_base + 'vehicles/' + str(a)
+        user = input("Are you sure? : y/n")
+        if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
+            r = requests.delete(url, headers=self.headers)
+            print("deleting resources now for {}".format(str(a)))
+            return r.status_code
+        else:
+            print("no resources deleted")
+            return False
 
     def __str__(self):
         pass
 
-class dev(config):      ### dev sub class
-    def __init__(self, host=None):      
+
+class dev(config):  # dev sub class
+    def __init__(self, host=None):
         self.api_base = 'http://api.keaz.io/v1/'
         if host is None:
             self.host = 'keaz.keaz.io'
@@ -558,9 +606,10 @@ class dev(config):      ### dev sub class
         if not self.login():
             raise Exception
         self.headers = {'X-Source-Host': self.host,
-                            'token': self.token}
+                        'token': self.token}
 
-class yoogo(config):
+
+class yoogo(config):  # yoogo sub class
     def __init__(self, host=None):
         self.api_base = 'http://api.yoogoshare.com/v1/'
         if host is None:
@@ -571,74 +620,11 @@ class yoogo(config):
             raise Exception
         self.headers = {'X-Source-Host': self.host,
                         'token': self.token}
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 def main():
-    data = yoogo()  # testing code here
-    print(data.get_all_companies())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    data = config()  # testing code here
+    print(data.get_bookings())
 
 
 if __name__ == '__main__':
