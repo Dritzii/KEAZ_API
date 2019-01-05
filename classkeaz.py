@@ -61,7 +61,7 @@ class config(object):
                 print('try again')
         except:
             print('no can do man')
-
+### importing csv file and iterate with POST request
     def import_file(self, a):
         file = open(a, 'r')
         import csv
@@ -148,8 +148,8 @@ class config(object):
         except:
             print('next time')
 
-    def get_all_costcentr(self):
-        url = self.api_base + 'cost-centr'
+    def get_all_costcentre(self):
+        url = self.api_base + 'cost-centre'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -214,12 +214,15 @@ class config(object):
         }
         try:
             r = requests.post(url, json=body, headers=self.headers)
-            if r.status_code in [401, '401']:
-                print('failed to access the rource to update')
+            if r.status_code in [400, '400']:
+                print('failed to access the resource to update{}'.format(str(r.status_code)))
                 return False
-            elif r.status_code in [200, '200']:
-                print('awesome, i have found it')
-                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('bad request{}'.format(str(r.status_code)))
+                return False
+            elif r.status_code in [201,'201',200,'200']:
+                print('request accepted, code: {}'.format(str(r.status_code)))
+                return r.status_code
             else:
                 print('Something is wrong, please check the script')
         except:
