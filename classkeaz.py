@@ -260,16 +260,16 @@ class config(object):
         print(temp_url)
         print(payload)
         try:
-            post = requests.post(
+            r = requests.post(
                 temp_url, data=payload, headers=self.headers)
-            if post.status_code in [201, '201', 200, '200']:
+            if r.status_code in [201, '201', 200, '200']:
                 print('Completed your update')
-                return post.status_code
-            elif post.status_code in [401, '401', 400, '400']:
-                print('failed to initialize')
+                return r.status_code
+            elif r.status_code in [401, '401', 400, '400']:
+                print('failed to initialize{}'.format(str(r.status_code)))
                 return False
         except:
-            print('failed to update: ' + ' ' + str(post.status_code))
+            print('failed to update: ' + ' ' + str(r.status_code))
 
     def create_vehicle(self, reg, year, trans, seat, fueltype, name, assetno, keyno, bodycolor, licensetype, kmstart, kmcurrent, availweekend, availafter, comments, vehiclecost, costtype):
         a = input('enter the enpoint for your vehicle: ')
@@ -297,12 +297,12 @@ class config(object):
             r = requests.post(url, headers=self.headers, json=body)
             if r.status_code in [200, '200', 201, '201']:
                 print('success')
-                return r.json()
+                return r.status_code
             elif r.status_code in [401, '401', '400', 400]:
-                print('not successful')
+                print('not successful{}'.format(str(r.status_code)))
                 return False
             else:
-                print('failed to update data')
+                print('failed to create data')
         except:
             print('Failed')
 
@@ -343,7 +343,7 @@ class config(object):
             r = requests.post(url, headers=self.headers, json=body)
             if r.status_code in [201, '201']:
                 print('Success')
-                return(r.json())
+                return(r.status_code)
             elif r.status_code in [401, '401']:
                 print('Error {}'.format(str(r.status_code)))
                 return False
@@ -384,7 +384,7 @@ class config(object):
         except:
             print('error {}'.format(str(r.status_code)))
 
-    def create_anything(self, a):  # a method for creating any rource
+    def create_anything(self, a):  # a method for creating any resource
         url = self.api_base + str(a)
         body = {}
         try:
