@@ -1,14 +1,6 @@
 from classkeaz import config
 
 
-print(dir(config))
-
-credentials = config("transdev-melbourne.keaz.software")
-data = credentials.get_anything('vehicle/kits')
-print(data)
-
-for key in data:
-    print(key, sep = ",")
 
 
 
@@ -17,8 +9,28 @@ for key in data:
 
 
 
+def main():
+    print(dir(config))
+    credentials = config()
+    data = credentials.get_anything('booking/1258871')
+    print(data)
 
 
+
+
+
+
+toyota = [ 82,83,80, 34,67,68, 70]
+
+
+
+
+
+
+
+
+if __name__ == "__main__":
+    main()
 
 
 
