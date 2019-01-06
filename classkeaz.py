@@ -69,13 +69,27 @@ class config(object):
         reader.__next__()
         for each in reader:
             yield each
-
+    def get_inactive(self):
+        url = self.api_base + 'vehicles?inactive=1'
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Successfully grabbed data {}'.format(str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Error with that request {}'.format(str(r.status_code)))
+                return False
+            else:
+                print("error {}".format(str(r.status_code)))
+                return False
+        except:
+            print("error")
     def get_companies(self):
         url = self.api_base + 'companies'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
-                print('You have successfully logged in {}'.format(
+                print('You have successfully grabbed data in {}'.format(
                     str(r.status_code)))
                 return(r.json())
             elif r.status_code in [400, '400']:
@@ -197,8 +211,7 @@ class config(object):
     def create_user(self, name, email, idnumb, contactnumber,
                     licensenumber, licenseexpmonth, licenseexpiryyear,
                     licensetype, liensecountry, ccid, activatedviacompanyid):
-        a = input('Please tell me who you want to modify:  ')
-        url = self.api_base + 'user/' + str(a)
+        url = self.api_base + 'user'
         body = {
             'name': name,
             'email': email,
@@ -227,7 +240,7 @@ class config(object):
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(r.status_code)))
-
+### double check the JSON for creating bookings required with each update.
     def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose, starttime, startdate, enddate, endtime):
         temp_url = self.api_base + 'booking'
         payload = {
@@ -251,8 +264,8 @@ class config(object):
             'start_timezone_offset': -36000,
             'end_timezone_offset': -36000,
             'drop_off_branch_id': branch,
-            'start_time': starttime,   # todo get value
-            'start_date':  startdate,  # todo get value
+            'start_time': starttime,   
+            'start_date':  startdate, 
             'end_date': enddate,
             'end_time': endtime,
             'vehicle_id': vehicle
@@ -263,13 +276,13 @@ class config(object):
             r = requests.post(
                 temp_url, data=payload, headers=self.headers)
             if r.status_code in [201, '201', 200, '200']:
-                print('Completed your update')
+                print('Completed your update {}'.format(str(r.status_code)))
                 return r.status_code
             elif r.status_code in [401, '401', 400, '400']:
-                print('failed to initialize{}'.format(str(r.status_code)))
+                print('failed to initialize {}'.format(str(r.status_code)))
                 return False
         except:
-            print('failed to update: ' + ' ' + str(r.status_code))
+            print('failed to update:  ' + ' ' + str(r.status_code))
 
     def create_vehicle(self, reg, year, trans, seat, fueltype, name, assetno, keyno, bodycolor, licensetype, kmstart, kmcurrent, availweekend, availafter, comments, vehiclecost, costtype):
         a = input('enter the enpoint for your vehicle: ')
@@ -341,7 +354,7 @@ class config(object):
         }
         try:
             r = requests.post(url, headers=self.headers, json=body)
-            if r.status_code in [201, '201']:
+            if r.status_code in [201, '201',200,'200']:
                 print('Success')
                 return(r.status_code)
             elif r.status_code in [401, '401']:
@@ -551,14 +564,16 @@ class config(object):
         print("deleting resources now")
         url = self.api_base + str(a)
         user = input("Are you sure? y/n")
-        if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
-            r = requests.delete(url, headers=self.headers)
-            print("deleting rources {}".format(str(a)))
-            return(r.status_code)
-        else:
-            print("No resources deleted")
-            pass
-
+        try:
+            if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
+                r = requests.delete(url, headers=self.headers)
+                print("deleting rources {}".format(str(a)))
+                return(r.status_code)
+            else:
+                print("No resources deleted")
+                pass
+        except exception as err:
+            print('error {}'.format(str(err)))
     def delete_companies(self, a):
         print("deleting resources now")
         url = self.api_base + 'companies/' + str(a)
