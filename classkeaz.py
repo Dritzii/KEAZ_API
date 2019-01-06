@@ -572,7 +572,7 @@ class config(object):
             else:
                 print("No resources deleted")
                 pass
-        except exception as err:
+        except Exception as err:
             print('error {}'.format(str(err)))
     def delete_companies(self, a):
         print("deleting resources now")
