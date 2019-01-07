@@ -570,8 +570,24 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
+    def update_anything(self,a):
+        body = {}
+        print('Updating anything')
+        url = self.api_base + str(a)
+        try:
+            r = requests.put(url, headers=self.headers, json=body)
+            if r.status_code in ['200', 200]:
+                print('Successfully created new rource status code {}'.format(
+                    str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401', 400, '400']:
+                print('Error status code {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('error {}'.format(str(r.status_code)))
+        except:
+            print('error {}'.format(str(r.status_code)))
 # delete rources below
-
     def delete_anything(self, a):
         print("deleting resources now")
         url = self.api_base + str(a)
