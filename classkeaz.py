@@ -112,9 +112,9 @@ class config(object):
                 print("Error {}".format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
-    def get_booking(self):
-        a = input('Enter the booking number: ')
-        url = self.api_base + 'booking/' + a
+    def get_booking(self,a):
+        ### a = input('Enter the booking number: ')
+        url = self.api_base + 'booking/' + str(a)
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -670,11 +670,12 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config()  # testing code here
-    print(data.get_booking())
+    print(data.get_booking(1226807).headers)
+    """
     import csv
     with open('12-30-2018.csv','wb') as fd:
         for each 
-
+    """
 
 
 if __name__ == '__main__':
