@@ -99,7 +99,19 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
-
+    def get_all_bookings(self,id,start,stime,end,etime):
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + stime + end + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Request Successful')
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Something is wrong status code: {}'.format(str(r.status_code)))
+            else:
+                print("Error {}".format(str(r.status_code)))
+        except:
+            print('sorry status code {}'.format(str(r.reason)))
     def get_bookings(self):
         a = input('Enter the booking number: ')
         url = self.api_base + 'booking/' + a
@@ -108,14 +120,14 @@ class config(object):
             if r.status_code in [200, '200']:
                 print('request successful')
                 return(r.json())
-            elif r.status_code in [401, '401']:
+            elif r.status_code in [400, '400']:
                 print('Something is wrong status code {}'.format(
                     str(r.status_code)))
                 return False
             else:
                 print('no can do')
         except:
-            print('sorry status code {}'.format(str(r.status_code)))
+            print('sorry status code {}'.format(str(r.reason)))
 
     def get_all_branches(self):
         url = self.api_base + 'branches'
