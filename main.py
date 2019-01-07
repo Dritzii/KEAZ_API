@@ -11,16 +11,10 @@ from classkeaz import config
 
 def main():
     print(dir(config))
-    credentials = config()
     data = credentials.get_anything('booking/1258871')
     print(data)
 
 
-
-
-
-
-toyota = [ 82,83,80, 34,67,68, 70]
 
 
 

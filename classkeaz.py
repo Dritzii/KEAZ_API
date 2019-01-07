@@ -481,8 +481,8 @@ class config(object):
         except:
             print('check script')
 
-    def update_branch(self, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
-        url = self.api_base + 'branch'
+    def update_branch(self,id, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
+        url = self.api_base + 'branch/{}'.format(str(id))
         body = {
             'name': name,
             'slug': slug,
