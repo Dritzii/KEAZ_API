@@ -602,9 +602,10 @@ class config(object):
                 pass
         except Exception as err:
             print('error {}'.format(str(err)))
-    def delete_companies(self, a):
+
+    def delete_company(self, a):
         print("deleting resources now")
-        url = self.api_base + 'companies/' + str(a)
+        url = self.api_base + 'company/' + str(a)
         user = input("Are you sure? : y/n")
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
@@ -617,6 +618,18 @@ class config(object):
     def delete_users(self, a):
         print("Attempting to delete resources")
         url = self.api_base + 'users/' + str(a)
+        user = input("Are you sure? : y/n")
+        if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
+            r = requests.delete(url, headers=self.headers)
+            print("deleting resources now for {}".format(str(a)))
+            return r.status_code
+        else:
+            print("no resources deleted")
+            return False
+
+    def delete_booking(self,a):
+        print("Attempting to delete booking number {}".format(str(a)))
+        url = self.api_base + 'booking/{}'.format(str(a))
         user = input("Are you sure? : y/n")
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
