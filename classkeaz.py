@@ -188,7 +188,20 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
-
+    def get_kits(self):
+        url = self.api_base + 'kits'
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Great success, status code {}'.format(str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [401, '401']:
+                print('Error {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('Something is wrong {}'.format(str(r.status_code)))
+        except:
+            print('next time')
     def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -683,7 +696,7 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config()  # testing code here
-    print(data.get_booking(1226807).headers)
+    print(data.get_booking(1226807))
     """
     import csv
     with open('12-30-2018.csv','wb') as fd:
