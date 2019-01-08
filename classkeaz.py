@@ -601,6 +601,21 @@ class config(object):
         except:
             print('error {}'.format(str(r.status_code)))
 # delete rources below
+    def delete_branches(self,a):
+        print('deleting branches now {}'.format(str(a)))
+        url = self.api_base + 'branch/' + str(a)
+        user = input("Are you sure? y/n")
+        try:
+            if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
+                r = requests.delete(url, headers=self.headers)
+                print("deleting rources {}".format(str(a)))
+                return(r.status_code)
+            else:
+                print("No resources deleted")
+                pass
+        except Exception as err:
+            print('error {}'.format(str(err)))
+
     def delete_anything(self, a):
         print("deleting resources now")
         url = self.api_base + str(a)
@@ -697,6 +712,8 @@ class yoogo(config):  # yoogo sub class
 def main():
     data = config()  # testing code here
     print(data.get_booking(1226807))
+
+    ### importing into csv file
     """
     import csv
     with open('12-30-2018.csv','wb') as fd:
