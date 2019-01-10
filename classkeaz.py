@@ -85,7 +85,7 @@ class config(object):
         except:
             print("error")
     def get_sms(self,kit,symd,start,eymd,end):
-        url = self.api_base + 'vehicle/kit/{}/sms/{}/{}/{}/{}'.format(str(kit,symd,eymd,end))
+        url = self.api_base + 'vehicle/kit/{kit}/sms/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
