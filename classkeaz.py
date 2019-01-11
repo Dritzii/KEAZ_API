@@ -27,7 +27,7 @@ class config(object):
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -85,7 +85,7 @@ class config(object):
         except:
             print('error')
     def get_sms(self,kit,symd,start,eymd,end):
-        url = self.api_base + 'vehicle/kit/{kit}/sms/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
+        url = self.api_base + 'vehicle/kit/{}/sms/'.format(str(kit)) + str(symd) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end)) 
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -100,7 +100,7 @@ class config(object):
         except:
             print('Error')
     def get_scan(self,kit,symd,start,eymd,end):
-        url = self.api_base + 'vehicle/kit/{kit}/scan/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
+        url = self.api_base + 'vehicle/kit/{}/scans/'.format(str(kit)) + str(symd) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end)) 
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -740,9 +740,8 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config()  # testing code here
-    print(data.get_sms(2007,'2019-01-10','00:00','2019-01-12','00:00'))
-
+    data = config()
+    print(data.get_all_companies())
     ### importing into csv file
     '''
     import csv
