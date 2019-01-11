@@ -7,9 +7,9 @@ import requests
 
 class config(object):
     def __init__(self, host=None):  # constructor
-        self.api_base = 'http:////'
+        self.api_base = 'http://api.keaz.software/v1/'
         if host is None:
-            self.host = '..'
+            self.host = 'keaz.keaz.software'
         else:
             self.host = host
         if not self.login():  # references login(self)
@@ -26,8 +26,8 @@ class config(object):
                    'version': '1.40.0',
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
-        form = {'email': '',
-                'password': ''}  # pw}
+        form = {'email': 'john@keaz.co',
+                'password': '@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -80,10 +80,10 @@ class config(object):
                 print('Error with that request {}'.format(str(r.status_code)))
                 return False
             else:
-                print("error {}".format(str(r.status_code)))
+                print('error {}'.format(str(r.status_code)))
                 return False
         except:
-            print("error")
+            print('error')
     def get_sms(self,kit,symd,start,eymd,end):
         url = self.api_base + 'vehicle/kit/{kit}/sms/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
         try:
@@ -99,6 +99,21 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
+    def get_scan(self,kit,symd,start,eymd,end):
+        url = self.api_base + 'vehicle/kit/{kit}/scan/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('You have successfully grabbed data in {}'.format(
+                    str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400, '400']:
+                print('Error status code {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('A different error {}'.format(str(r.status_code)))
+        except:
+            print('Error')    
     def get_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -124,7 +139,7 @@ class config(object):
             elif r.status_code in [400,'400']:
                 print('Something is wrong status code: {}'.format(str(r.status_code)))
             else:
-                print("Error {}".format(str(r.status_code)))
+                print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
     def get_booking(self,a):
@@ -619,79 +634,79 @@ class config(object):
     def delete_branches(self,a):
         print('deleting branches now {}'.format(str(a)))
         url = self.api_base + 'branch/' + str(a)
-        user = input("Are you sure? y/n")
+        user = input('Are you sure? y/n')
         try:
             if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
                 r = requests.delete(url, headers=self.headers)
-                print("deleting rources {}".format(str(a)))
+                print('deleting rources {}'.format(str(a)))
                 return(r.status_code)
             else:
-                print("No resources deleted")
+                print('No resources deleted')
                 pass
         except Exception as err:
             print('error {}'.format(str(err)))
 
     def delete_anything(self, a):
-        print("deleting resources now")
+        print('deleting resources now')
         url = self.api_base + str(a)
-        user = input("Are you sure? y/n")
+        user = input('Are you sure? y/n')
         try:
             if user in ['y', 'yes', 'ye', 'yeah', 'yep']:
                 r = requests.delete(url, headers=self.headers)
-                print("deleting rources {}".format(str(a)))
+                print('deleting rources {}'.format(str(a)))
                 return(r.status_code)
             else:
-                print("No resources deleted")
+                print('No resources deleted')
                 pass
         except Exception as err:
             print('error {}'.format(str(err)))
 
     def delete_company(self, a):
-        print("deleting resources now")
+        print('deleting resources now')
         url = self.api_base + 'company/' + str(a)
-        user = input("Are you sure? : y/n")
+        user = input('Are you sure? : y/n')
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
-            print("deleting resources now for {}".format(str(a)))
+            print('deleting resources now for {}'.format(str(a)))
             return r.status_code
         else:
-            print("no resources deleted")
+            print('no resources deleted')
             return False
 
     def delete_users(self, a):
-        print("Attempting to delete resources")
+        print('Attempting to delete resources')
         url = self.api_base + 'users/' + str(a)
-        user = input("Are you sure? : y/n")
+        user = input('Are you sure? : y/n')
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
-            print("deleting resources now for {}".format(str(a)))
+            print('deleting resources now for {}'.format(str(a)))
             return r.status_code
         else:
-            print("no resources deleted")
+            print('no resources deleted')
             return False
 
     def delete_booking(self,a):
-        print("Attempting to delete booking number {}".format(str(a)))
+        print('Attempting to delete booking number {}'.format(str(a)))
         url = self.api_base + 'booking/{}'.format(str(a))
-        user = input("Are you sure? : y/n")
+        user = input('Are you sure? : y/n')
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
-            print("deleting resources now for {}".format(str(a)))
+            print('deleting resources now for {}'.format(str(a)))
             return r.status_code
         else:
-            print("no resources deleted")
+            print('no resources deleted')
             return False
 
     def delete_vehicles(self, a):
-        print("Attempting to delete resources")
+        print('Attempting to delete resources')
         url = self.api_base + 'vehicles/' + str(a)
-        user = input("Are you sure? : y/n")
+        user = input('Are you sure? : y/n')
         if user in ['y', 'ye', 'yes', 'yep', 'yeah']:
             r = requests.delete(url, headers=self.headers)
-            print("deleting resources now for {}".format(str(a)))
+            print('deleting resources now for {}'.format(str(a)))
             return r.status_code
         else:
-            print("no resources deleted")
+            print('no resources deleted')
             return False
 
     def __str__(self):
@@ -729,12 +744,12 @@ def main():
     print(data.get_sms(2007,'2019-01-10','00:00','2019-01-12','00:00'))
 
     ### importing into csv file
-    """
+    '''
     import csv
     with open('12-30-2018.csv','wb') as fd:
         for each 
-    """
+    '''
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
