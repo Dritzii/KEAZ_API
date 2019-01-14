@@ -84,8 +84,8 @@ class config(object):
                 return False
         except:
             print('error')
-    def get_sms(self,kit,symd,start,eymd,end):
-        url = self.api_base + 'vehicle/kit/{kit}/sms/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
+    def get_locations(self):
+        url = self.api_base + 'locations/cities'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -96,11 +96,42 @@ class config(object):
                 print('Error status code {}'.format(str(r.status_code)))
                 return False
             else:
-                print('A different error {}'.format(str(r.status_code)))
+                print('A different error {}'.format(str(r.reason)))
         except:
             print('Error')
-    def get_scan(self,kit,symd,start,eymd,end):
-        url = self.api_base + 'vehicle/kit/{kit}/scan/{symd}/{start}/{eymd}/{end}'.format(str(kit,symd,start,eymd,end))
+    def get_location_activities(self,number,symd,start,eymd,end):
+        url = self.api_base + 'activities/city/{}'.format(str(number)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('You have successfully grabbed data in {}'.format(
+                    str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400, '400']:
+                print('Error status code {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('A different error {}'.format(str(r.reason)))
+        except:
+            print('Error')
+    def get_sms(self,kit,symd,start,eymd,end):
+        url = self.api_base + 'vehicle/kit/{}/sms_logs'.format(str(kit)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('You have successfully grabbed data in {}'.format(
+                    str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400, '400']:
+                print('Error status code {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('A different error {}'.format(str(r.reason)))
+        except:
+            print('Error')
+            ### serial number for scans - gets queried from mongodb
+    def get_scan(self,serial,symd,start,end):
+        url = self.api_base + 'udp_logs/{}'.format(str(serial)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) +  '/{}'.format(str(end))
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -741,7 +772,8 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config()  # testing code here
-    print(data.get_sms(2007,'2019-01-10','00:00','2019-01-12','00:00'))
+    print(data.get_scan('4661301369','0','154643400','1547557200'))
+   
 
     ### importing into csv file
     '''
