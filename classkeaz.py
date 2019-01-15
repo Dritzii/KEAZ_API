@@ -27,7 +27,7 @@ class config(object):
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -787,8 +787,12 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config()  # testing code here
-    print(data.get_scan('4661301369','0','154643400','1547557200'))
-   
+    ###print(data.get_scan('4661301369','0','154643400','1547557200'))
+    raw = data.get_sms('252','2017-05-17','00:00','2019-01-16','00:00')
+    for i in raw['activities']:
+        print(i)
+  
+
 
     ### importing into csv file
     '''
