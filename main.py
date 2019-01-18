@@ -10,8 +10,8 @@ from classkeaz import config
 
 
 def main():
-    print(dir(config))
-    data = credentials.get_anything('booking/1258871')
+    ### print(dir(config))
+    data = config().get_anything('booking/1258871')
     print(data)
 
 
