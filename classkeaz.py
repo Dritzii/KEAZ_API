@@ -69,8 +69,8 @@ class config(object):
         reader.__next__()
         for each in reader:
             yield each
-    def get_inactive(self):
-        url = self.api_base + 'vehicles?inactive=1'
+    def get_inactive_vehicles(self,page):
+        url = self.api_base + 'vehicles?inactive={}'.format(str(page))
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
