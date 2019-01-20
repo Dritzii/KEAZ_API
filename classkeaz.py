@@ -160,7 +160,7 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
-    def get_companies(self):
+    def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
             r = requests.get(url, headers=self.headers)
@@ -176,7 +176,20 @@ class config(object):
         except:
             print('Error')
     def get_all_bookings(self,id,start,stime,end,etime):
-        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + stime + end + etime
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + '/' + stime + '/' + end + '/' + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Request Successful')
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Something is wrong status code: {}'.format(str(r.status_code)))
+            else:
+                print('Error {}'.format(str(r.status_code)))
+        except:
+            print('sorry status code {}'.format(str(r.reason)))
+    def get_user_bookings(self,id,start,stime,end,etime):
+        url = self.api_base + '/user' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
