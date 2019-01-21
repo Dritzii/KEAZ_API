@@ -356,7 +356,7 @@ class config(object):
             print('Status code {}'.format(str(r.status_code)))
 ### double check the JSON for creating bookings required with each update.
     def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose, starttime, startdate, enddate, endtime):
-        temp_url = self.api_base + 'booking'
+        url = self.api_base + 'booking'
         payload = {
             'node_id': '',
             'node_sel': '',
@@ -384,11 +384,11 @@ class config(object):
             'end_time': endtime,
             'vehicle_id': vehicle
         }
-        print(temp_url)
+        print(url)
         print(payload)
         try:
             r = requests.post(
-                temp_url, data=payload, headers=self.headers)
+                url, data=payload, headers=self.headers)
             if r.status_code in [201, '201', 200, '200']:
                 print('Completed your update {}'.format(str(r.status_code)))
                 return r.status_code
