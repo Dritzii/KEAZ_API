@@ -11,7 +11,7 @@ from classkeaz import config
 
 def main():
     ### print(dir(config))
-    data = config().get_anything('booking/1258871')
+    data = config().get_anything('company/90/paging_bookings/2018-12-31/00:00/2019-02-04/00:00')
     print(data)
 
 

@@ -13,7 +13,7 @@ class config(object):
             self.host = 'keaz.keaz.software'
         else:
             self.host = host
-        if not self.login():  # references login(self)
+        if not self.login():  # references def login(self)
             raise Exception
         self.headers = {'X-Source-Host': self.host,
                         'token': self.token}
@@ -56,12 +56,15 @@ class config(object):
             if r.status_code in [200, '200']:
                 print('request successful')
                 return(r.json())
-            elif r.status_code in [401, '401']:
+            elif r.status_code in [400, '400']:
                 print('Something is wrong with that request status code {}'.format(
                     str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                
             else:
-                print('try again')
+                print('try again {}'.format(str(r.status_code)))
         except:
             print('no can do man')
 
@@ -84,6 +87,9 @@ class config(object):
             elif r.status_code in [400,'400']:
                 print('Error with that request {}'.format(str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('error {}'.format(str(r.status_code)))
                 return False
@@ -101,6 +107,9 @@ class config(object):
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('A different error {}'.format(str(r.reason)))
         except:
@@ -117,6 +126,9 @@ class config(object):
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('A different error {}'.format(str(r.reason)))
         except:
@@ -132,6 +144,9 @@ class config(object):
                 return(r.json())
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
+                return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
                 return False
             else:
                 print('A different error {}'.format(str(r.reason)))
@@ -150,6 +165,28 @@ class config(object):
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
+            else:
+                print('A different error {}'.format(str(r.status_code)))
+        except:
+            print('Error')
+
+    def company_activities(self,id,start,stime,end,etime):
+        url = self.api_base + 'activities/company/{}/'.format(str(id)) + start + '/' + stime + '/' + end + '/' + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('You have successfully grabbed data in {}'.format(
+                    str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400, '400']:
+                print('Error status code {}'.format(str(r.status_code)))
+                return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('A different error {}'.format(str(r.status_code)))
         except:
@@ -165,6 +202,9 @@ class config(object):
                 return(r.json())
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
+                return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
                 return False
             else:
                 print('A different error {}'.format(str(r.status_code)))
@@ -182,6 +222,9 @@ class config(object):
             elif r.status_code in [400, '400']:
                 print('Error status code {}'.format(str(r.status_code)))
                 return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('A different error {}'.format(str(r.status_code)))
         except:
@@ -196,8 +239,43 @@ class config(object):
                 return(r.json())
             elif r.status_code in [400,'400']:
                 print('Something is wrong status code: {}'.format(str(r.status_code)))
+                return False
+            elif r.status_code in [404, '404']:
+                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('Error {}'.format(str(r.status_code)))
+        except:
+            print('sorry status code {}'.format(str(r.reason)))
+
+    def get_all_cancelled_bookings(self,id,start,stime,end,etime):
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/cancelled/' + start + '/' + stime + '/' + end + '/' + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Request Successful')
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Something is wrong status code: {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('Error {}'.format(str(r.status_code)))
+        except:
+            print('sorry status code {}'.format(str(r.reason)))
+
+    def get_all_cancelled_paging_bookings(self,id,start,stime,end,etime):
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'paging_bookings/cancelled/' + start + '/' + stime + '/' + end + '/' + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Request Successful')
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Something is wrong status code: {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('Error {}'.format(str(r.status_code)))
+                return False
         except:
             print('sorry status code {}'.format(str(r.reason)))
 
@@ -722,7 +800,7 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
-            
+
 # delete rources below
     def delete_branches(self,a):
         print('deleting branches now {}'.format(str(a)))
