@@ -6,6 +6,7 @@ import requests
 
 
 class config(object):
+
     def __init__(self, host=None):  # constructor
         self.api_base = 'http://api.keaz.software/v1/'
         if host is None:
@@ -18,6 +19,7 @@ class config(object):
                         'token': self.token}
         print(host)
         print(self.headers)
+
 
     def login(self):
         print('Logging in')
@@ -46,6 +48,7 @@ class config(object):
         except:
             print('Failed to generate Login Request')
 
+
     def get_anything(self, a):  # getters
         url = self.api_base + str(a)
         try:
@@ -61,6 +64,7 @@ class config(object):
                 print('try again')
         except:
             print('no can do man')
+
 ### importing csv file and iterate with POST request
     def import_file(self, a):
         file = open(a, 'r')
@@ -69,6 +73,7 @@ class config(object):
         reader.__next__()
         for each in reader:
             yield each
+
     def get_inactive_vehicles(self,page):
         url = self.api_base + 'vehicles?inactive={}'.format(str(page))
         try:
@@ -84,6 +89,7 @@ class config(object):
                 return False
         except:
             print('error')
+
     def get_locations(self):
         url = self.api_base + 'locations/cities'
         try:
@@ -99,6 +105,7 @@ class config(object):
                 print('A different error {}'.format(str(r.reason)))
         except:
             print('Error')
+
     def get_location_activities(self,number,symd,start,eymd,end):
         url = self.api_base + 'activities/city/{}'.format(str(number)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
         try:
@@ -114,6 +121,7 @@ class config(object):
                 print('A different error {}'.format(str(r.reason)))
         except:
             print('Error')
+
     def get_sms(self,kit,symd,start,eymd,end):
         url = self.api_base + 'vehicle/kit/{}/sms_logs'.format(str(kit)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
         try:
@@ -129,6 +137,7 @@ class config(object):
                 print('A different error {}'.format(str(r.reason)))
         except:
             print('Error')
+
             ### serial number for scans - gets queried from mongodb
     def get_scan(self,serial,symd,start,end):
         url = self.api_base + 'udp_logs/{}'.format(str(serial)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) +  '/{}'.format(str(end))
@@ -145,6 +154,7 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
+
     def get_login_history(self,symd,eymd,start,end):
         url = self.api_base + 'logins/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) +  '/{}'.format(str(end))
         try:
@@ -160,6 +170,7 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
+
     def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -175,6 +186,7 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
+
     def get_all_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -188,6 +200,7 @@ class config(object):
                 print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
+
     def get_user_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/user' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -201,6 +214,7 @@ class config(object):
                 print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
+
     def get_booking(self,a):
         ### a = input('Enter the booking number: ')
         url = self.api_base + 'booking/' + str(a)
@@ -215,6 +229,20 @@ class config(object):
                 return False
             else:
                 print('no can do')
+        except:
+            print('sorry status code {}'.format(str(r.reason)))
+
+    def get_open_bookings(self,id,start,stime,end,etime):
+        url = self.api_base + '/company/{}/paging_bookings/open'.format(str(id)) + '/' + start + '/' + stime + '/' + end + '/' + etime
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Request Successful')
+                return(r.json())
+            elif r.status_code in [400,'400']:
+                print('Something is wrong status code: {}'.format(str(r.status_code)))
+            else:
+                print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
 
@@ -277,6 +305,7 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
+
     def get_kits(self):
         url = self.api_base + 'kits'
         try:
@@ -291,6 +320,7 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
+
     def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -354,6 +384,7 @@ class config(object):
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(r.status_code)))
+
 ### double check the JSON for creating bookings required with each update.
     def create_booking(self, date, branch, user_id, vehicle, cost_centre, trip_purpose, starttime, startdate, enddate, endtime):
         url = self.api_base + 'booking'
@@ -672,6 +703,8 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
+
+
     def update_anything(self,a):
         body = {}
         print('Updating anything')
@@ -689,6 +722,7 @@ class config(object):
                 print('error {}'.format(str(r.status_code)))
         except:
             print('error {}'.format(str(r.status_code)))
+            
 # delete rources below
     def delete_branches(self,a):
         print('deleting branches now {}'.format(str(a)))
