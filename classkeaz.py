@@ -68,6 +68,7 @@ class config(object):
         except:
             print('no can do man')
 
+
 ### importing csv file and iterate with POST request
     def import_file(self, a):
         file = open(a, 'r')
@@ -76,6 +77,7 @@ class config(object):
         reader.__next__()
         for each in reader:
             yield each
+
 
     def get_inactive_vehicles(self,page):
         url = self.api_base + 'vehicles?inactive={}'.format(str(page))
@@ -96,6 +98,7 @@ class config(object):
         except:
             print('error')
 
+
     def get_locations(self):
         url = self.api_base + 'locations/cities'
         try:
@@ -115,6 +118,7 @@ class config(object):
         except:
             print('Error')
 
+
     def get_location_activities(self,number,symd,start,eymd,end):
         url = self.api_base + 'activities/city/{}'.format(str(number)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
         try:
@@ -133,6 +137,7 @@ class config(object):
                 print('A different error {}'.format(str(r.reason)))
         except:
             print('Error')
+
 
     def get_sms(self,kit,symd,start,eymd,end):
         url = self.api_base + 'vehicle/kit/{}/sms_logs'.format(str(kit)) + '/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) + '/{}'.format(str(end))
@@ -173,6 +178,7 @@ class config(object):
         except:
             print('Error')
 
+
     def company_activities(self,id,start,stime,end,etime):
         url = self.api_base + 'activities/company/{}/'.format(str(id)) + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -191,6 +197,7 @@ class config(object):
                 print('A different error {}'.format(str(r.status_code)))
         except:
             print('Error')
+
 
     def get_login_history(self,symd,eymd,start,end):
         url = self.api_base + 'logins/{}'.format(str(symd)) + '/{}'.format(str(start)) + '/{}'.format(str(eymd)) +  '/{}'.format(str(end))
@@ -211,6 +218,7 @@ class config(object):
         except:
             print('Error')
 
+
     def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -230,6 +238,7 @@ class config(object):
         except:
             print('Error')
 
+
     def get_all_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -248,6 +257,7 @@ class config(object):
         except:
             print('sorry status code {}'.format(str(r.reason)))
 
+
     def get_all_cancelled_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/cancelled/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -262,6 +272,7 @@ class config(object):
                 print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
+
 
     def get_all_cancelled_paging_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company' + '/{}'.format(str(id)) + 'paging_bookings/cancelled/' + start + '/' + stime + '/' + end + '/' + etime
@@ -279,6 +290,7 @@ class config(object):
         except:
             print('sorry status code {}'.format(str(r.reason)))
 
+
     def get_user_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/user' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -292,6 +304,7 @@ class config(object):
                 print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
+
 
     def get_booking(self,a):
         ### a = input('Enter the booking number: ')
@@ -310,6 +323,7 @@ class config(object):
         except:
             print('sorry status code {}'.format(str(r.reason)))
 
+
     def get_open_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company/{}/paging_bookings/open'.format(str(id)) + '/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -323,6 +337,7 @@ class config(object):
                 print('Error {}'.format(str(r.status_code)))
         except:
             print('sorry status code {}'.format(str(r.reason)))
+
 
     def get_all_branches(self):
         url = self.api_base + 'branches'
@@ -339,6 +354,7 @@ class config(object):
         except:
             print('No can Do')
 
+
     def get_all_users(self):
         url = self.api_base + 'users'
         try:
@@ -353,6 +369,7 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
+
 
     def get_all_vehicles(self):
         url = self.api_base + 'vehicles'
@@ -369,6 +386,7 @@ class config(object):
         except:
             print('next time')
 
+
     def get_all_costcentre(self):
         url = self.api_base + 'cost-centre'
         try:
@@ -383,6 +401,7 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
+
 
     def get_kits(self):
         url = self.api_base + 'kits'
@@ -399,6 +418,7 @@ class config(object):
         except:
             print('next time')
 
+
     def get_all_companies(self):
         url = self.api_base + 'companies'
         try:
@@ -413,6 +433,7 @@ class config(object):
                 print('status code {}'.format(str(r.status_code)))
         except:
             print('error')
+
 
     def get_all_kits(self):
         url = self.api_base + 'vehicle/kits'
@@ -507,6 +528,7 @@ class config(object):
         except:
             print('failed to update:  ' + ' ' + str(r.status_code))
 
+
     def create_vehicle(self, reg, year, trans, seat, fueltype, name, assetno, keyno, bodycolor, licensetype, kmstart, kmcurrent, availweekend, availafter, comments, vehiclecost, costtype):
         a = input('enter the enpoint for your vehicle: ')
         url = self.api_base + 'vehicle/' + a
@@ -542,6 +564,7 @@ class config(object):
         except:
             print('Failed')
 
+
     def create_branch(self, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch'
         body = {
@@ -569,6 +592,7 @@ class config(object):
         except:
             print('check script')
 
+
     def create_cc(self, name, code):
         url = self.api_base + 'cost-centre'
         body = {
@@ -587,6 +611,7 @@ class config(object):
                 print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
+
 
     def create_company(self, name, slug, connum, conemail, addrs, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
         url = self.api_base + 'company'
@@ -620,6 +645,7 @@ class config(object):
         except:
             print('error {}'.format(str(r.status_code)))
 
+
     def create_anything(self, a):  # a method for creating any resource
         url = self.api_base + str(a)
         body = {}
@@ -637,6 +663,7 @@ class config(object):
         except:
             print('no can do man')
     # update resources below
+
 
     def update_vehicle(self, reg, year, trans, seat, fueltype, name, assetno, keyno, bodycolor, licensetype, kmstart, kmcurrent, availweekend, availafter, comments, vehiclecost, costtype):
         a = input('enter the enpoint for your vehicle: ')
@@ -673,6 +700,7 @@ class config(object):
         except:
             print('Failed')
 
+
     def update_cc(self, name, code):
         url = self.api_base + 'cost-centre'
         body = {
@@ -691,6 +719,7 @@ class config(object):
                 print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
+
 
     def update_branch(self,id, name, slug, addrs, lat, lng, geohash, avabilityafterhours, avabilityweekends, businessstart, businessend):
         url = self.api_base + 'branch/{}'.format(str(id))
@@ -718,6 +747,7 @@ class config(object):
                 print('status code: {}'.format(str(r.status_code)))
         except:
             print('check script')
+
 
     def update_user(self, name, email, idnumb, contactnumber,
                     licensenumber, licenseexpmonth, licenseexpiryyear,
@@ -749,6 +779,7 @@ class config(object):
                 print('Something is wrong, please check the script')
         except:
             print('Status code {}'.format(str(r.status_code)))
+
 
     def update_company(self, name, slug, connum, conemail, addrs, lat, lng, description, url, vehiclecost, costtype, currency, order, tolerance):
         url = self.api_base + 'company'
@@ -817,6 +848,7 @@ class config(object):
         except Exception as err:
             print('error {}'.format(str(err)))
 
+
     def delete_anything(self, a):
         print('deleting resources now')
         url = self.api_base + str(a)
@@ -832,6 +864,7 @@ class config(object):
         except Exception as err:
             print('error {}'.format(str(err)))
 
+
     def delete_company(self, a):
         print('deleting resources now')
         url = self.api_base + 'company/' + str(a)
@@ -843,6 +876,7 @@ class config(object):
         else:
             print('no resources deleted')
             return False
+
 
     def delete_users(self, a):
         print('Attempting to delete resources')
@@ -856,6 +890,7 @@ class config(object):
             print('no resources deleted')
             return False
 
+
     def delete_booking(self,a):
         print('Attempting to delete booking number {}'.format(str(a)))
         url = self.api_base + 'booking/{}'.format(str(a))
@@ -867,6 +902,7 @@ class config(object):
         else:
             print('no resources deleted')
             return False
+
 
     def delete_vehicles(self, a):
         print('Attempting to delete resources')
