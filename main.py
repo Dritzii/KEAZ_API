@@ -1,4 +1,4 @@
-from classkeaz import config
+from Keaz_Api import config
 
 
 
@@ -10,8 +10,8 @@ from classkeaz import config
 
 
 def main():
-    ### print(dir(config))
-    data = config().get_anything('company/90/paging_bookings/2018-12-31/00:00/2019-02-04/00:00')
+    ### print(dir(config)) - shows you the functions of the class classkeaz
+    data = config().get_anything()
     print(data)
 
 
