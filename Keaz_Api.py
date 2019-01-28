@@ -905,7 +905,7 @@ class config(object):
             print('no resources deleted')
             return False
 
-
+### delete functions have a prompt for user to delete
     def delete_vehicles(self, a):
         print('Attempting to delete resources')
         url = self.api_base + 'vehicles/' + str(a)
@@ -922,7 +922,7 @@ class config(object):
         pass
 
 
-class dev(config):  # dev sub class
+class dev(config):  # dev sub class inheritance from config class
     def __init__(self, host=None):
         self.api_base = 'http://api.keaz.io/v1/'
         if host is None:
