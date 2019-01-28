@@ -62,12 +62,14 @@ class config(object):
                 return False
             elif r.status_code in [404, '404']:
                 print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
-                
+                return False
+            elif r.status_code in [504, '504',500,'500']:
+                print("Server has been timed out: {}".format(str(r.status_reason)))
+                return False
             else:
                 print('try again {}'.format(str(r.status_code)))
         except:
-            print('no can do man')
-
+            print('no can do man {}'.format(str(r.reason)))
 
 ### importing csv file and iterate with POST request
     def import_file(self, a):
@@ -947,8 +949,8 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config()  # testing code here
-    print(data.get_scan('4661301369','0','154643400','1547557200'))
+    data = config()  # enter sourcehost here
+    print(data.get_anything())
    
 
     ### importing into csv file
