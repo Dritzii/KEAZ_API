@@ -1,4 +1,4 @@
-from .classkeaz import config
+from classkeaz import config
 
 
 

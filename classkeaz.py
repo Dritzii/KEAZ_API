@@ -14,7 +14,7 @@ class config(object):
         else:
             self.host = host
         if not self.login():  # references def login(self)
-            raise Exception
+            raise Exception and print("Login not successful")
         self.headers = {'X-Source-Host': self.host,
                         'token': self.token}
         print(host)
@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
