@@ -420,23 +420,6 @@ class config(object):
         except:
             print('next time')
 
-
-    def get_all_companies(self):
-        url = self.api_base + 'companies'
-        try:
-            r = requests.get(url, headers=self.headers)
-            if r.status_code in [200, '200']:
-                print('Great Success, status code {}'.format(str(r.status_code)))
-                return(r.json())
-            elif r.status_code in [400, '400']:
-                print('Error {}'.format(str(r.status_code)))
-                return False
-            else:
-                print('status code {}'.format(str(r.status_code)))
-        except:
-            print('error')
-
-
     def get_all_kits(self):
         url = self.api_base + 'vehicle/kits'
         try:
@@ -950,7 +933,7 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config()  # enter sourcehost here
-    print(data.get_anything())
+    print(data.get_booking('1326062'))
    
 
     ### importing into csv file
