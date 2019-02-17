@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -242,7 +242,7 @@ class config(object):
 
 
     def get_all_bookings(self,id,start,stime,end,etime):
-        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'bookings/' + start + '/' + stime + '/' + end + '/' + etime
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -254,6 +254,8 @@ class config(object):
             elif r.status_code in [404, '404']:
                 print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
                 return False
+            elif r.status_code in [504,'504',500,'500']:
+                print("Server time out")
             else:
                 print('Error {}'.format(str(r.status_code)))
         except:
@@ -419,6 +421,23 @@ class config(object):
                 print('Something is wrong {}'.format(str(r.status_code)))
         except:
             print('next time')
+
+
+    def get_all_companies(self):
+        url = self.api_base + 'companies'
+        try:
+            r = requests.get(url, headers=self.headers)
+            if r.status_code in [200, '200']:
+                print('Great Success, status code {}'.format(str(r.status_code)))
+                return(r.json())
+            elif r.status_code in [400, '400']:
+                print('Error {}'.format(str(r.status_code)))
+                return False
+            else:
+                print('status code {}'.format(str(r.status_code)))
+        except:
+            print('error')
+
 
     def get_all_kits(self):
         url = self.api_base + 'vehicle/kits'
@@ -932,18 +951,9 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config()  # enter sourcehost here
-    print(data.get_booking('1326062'))
+    data = config('envoy-there.keaz.software')  # enter sourcehost here
+    print(data.get_all_bookings('52','2018-01-25','00:00','2019-02-19','00:00'))
    
-
-    ### importing into csv file
-    '''
-    import csv
-    with open('12-30-2018.csv','wb') as fd:
-        for each 
-    '''
-
-
 
 
 
