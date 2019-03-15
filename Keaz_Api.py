@@ -951,9 +951,30 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config('envoy-there.keaz.software')  # enter sourcehost here
-    print(data.get_all_bookings('52','2018-01-25','00:00','2019-02-19','00:00'))
-   
+    data = config('vision.keaz.software')  # enter sourcehost here
+    stuff = data.get_all_branches()
+    print(stuff)
+    """
+    i = 0
+    initial =  data.get_anything("users/{}?inactive=1".format(str(i)))
+    pgcount = initial['total_page']
+    for page in range(1, pgcount):
+        print(data.get_anything("users/{}?inactive=1".format(str(page))))
+    """    
+
+
+    """
+    keys = get[0].keys()
+    values = get[1].keys()  
+    print(values)
+    import csv
+    #for each in get:
+    #    print(each)
+ 
+    with open("get.csv","wb") as file:
+        writer = csv.writer(file,keys)
+        writer.writerow(values)
+    """
 
 
 
