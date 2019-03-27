@@ -295,6 +295,22 @@ class config(object):
             print('sorry status code {}'.format(str(r.reason)))
 
 
+    def get_all_inactive_users(self):
+        i = 0
+        url = self.api_base + 'users/{}?inactive=1'.format(str(i))
+        r = requests.get(url,headers=self.headers)
+        if r.status_code in [200,'200']:
+            print("Successful request")
+            pgcount = r.json()['total_page']
+            for page in range(1, pgcount):
+                print(r.json())
+        elif r.status_code in [400,'400']:
+            print("something is wrong")
+            return(False)
+        else:
+            print("not successful")
+            return(False)
+       
     def get_user_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/user' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
@@ -952,7 +968,8 @@ class yoogo(config):  # yoogo sub class
 
 def main():
     data = config('vision.keaz.software')  # enter sourcehost here
-    stuff = data.get_all_branches()
+  
+    stuff = data.get_all_inactive_users()
     print(stuff)
     """
     i = 0
@@ -960,10 +977,8 @@ def main():
     pgcount = initial['total_page']
     for page in range(1, pgcount):
         print(data.get_anything("users/{}?inactive=1".format(str(page))))
-    """    
+    
 
-
-    """
     keys = get[0].keys()
     values = get[1].keys()  
     print(values)
