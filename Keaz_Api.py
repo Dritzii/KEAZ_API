@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'}
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -220,26 +220,7 @@ class config(object):
         except:
             print('Error')
 
-
-    def get_all_companies(self):
-        url = self.api_base + 'companies'
-        try:
-            r = requests.get(url, headers=self.headers)
-            if r.status_code in [200, '200']:
-                print('You have successfully grabbed data in {}'.format(
-                    str(r.status_code)))
-                return(r.json())
-            elif r.status_code in [400, '400']:
-                print('Error status code {}'.format(str(r.status_code)))
-                return False
-            elif r.status_code in [404, '404']:
-                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
-                return False
-            else:
-                print('A different error {}'.format(str(r.status_code)))
-        except:
-            print('Error')
-
+#### use this api for CoC
 
     def get_all_bookings(self,id,start,stime,end,etime):
         url = self.api_base + '/company' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
@@ -254,7 +235,7 @@ class config(object):
             elif r.status_code in [404, '404']:
                 print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
                 return False
-            elif r.status_code in [504,'504',500,'500']:
+            elif r.status_code in [504,'504',500,'500',502,'502']:
                 print("Server time out")
             else:
                 print('Error {}'.format(str(r.status_code)))
@@ -967,30 +948,10 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config('vision.keaz.software')  # enter sourcehost here
+    data = config('chicago.keaz.software')  # enter sourcehost here
   
-    stuff = data.get_all_inactive_users()
+    stuff = data.get_all_bookings('90','1427926432','00:00','1554156832','00:00')
     print(stuff)
-    """
-    i = 0
-    initial =  data.get_anything("users/{}?inactive=1".format(str(i)))
-    pgcount = initial['total_page']
-    for page in range(1, pgcount):
-        print(data.get_anything("users/{}?inactive=1".format(str(page))))
-    
-
-    keys = get[0].keys()
-    values = get[1].keys()  
-    print(values)
-    import csv
-    #for each in get:
-    #    print(each)
- 
-    with open("get.csv","wb") as file:
-        writer = csv.writer(file,keys)
-        writer.writerow(values)
-    """
-
 
 
 
