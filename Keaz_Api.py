@@ -237,6 +237,7 @@ class config(object):
                 return False
             elif r.status_code in [504,'504',500,'500',502,'502']:
                 print("Server time out")
+                return False
             else:
                 print('Error {}'.format(str(r.status_code)))
         except:
