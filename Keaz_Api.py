@@ -26,10 +26,10 @@ class config(object):
         headers = {'X-Source-Host': self.host,
                    'app_name': 'Johns Script',
                    'version': '1.40.0',
-                   'device_type': 'SCRIPT'}
+                   'device_type': 'SCRIPT'} 
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': 'Aqualite12@'}  # pw}
+                'password': '@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -390,7 +390,7 @@ class config(object):
 
 
     def get_all_costcentre(self):
-        url = self.api_base + 'cost-centre'
+        url = self.api_base + 'cost-centres'
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -435,7 +435,7 @@ class config(object):
                 print('status code {}'.format(str(r.status_code)))
         except:
             print('error')
-
+## need to add inactive kits to code ++++
 
     def get_all_kits(self):
         url = self.api_base + 'vehicle/kits'
@@ -507,7 +507,7 @@ class config(object):
                 'Business',
                 'Private'
             ],
-            'start_timezone_offset': -36000,
+            'start_timezone_offset': -36000, ## dependant on client timezone
             'end_timezone_offset': -36000,
             'drop_off_branch_id': branch,
             'start_time': starttime,   
@@ -816,8 +816,8 @@ class config(object):
             print('error {}'.format(str(r.status_code)))
 
 
-    def update_anything(self,a):
-        body = {}
+    def update_anything(self,a,body):
+        body = body
         print('Updating anything')
         url = self.api_base + str(a)
         try:
@@ -949,12 +949,35 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
-    data = config('chicago.keaz.software')  # enter sourcehost here
-  
-    stuff = data.get_all_bookings('90','1427926432','00:00','1554156832','00:00')
-    print(stuff)
+    """
+    def import_user_file():
+        import csv
+        file = open('C:/Users/John Pham/Documents/GitHub/KEAZ_API/ccc.csv','r')
+        reader = csv.reader(file)
+        reader.__next__()
+        for each in reader:
+            yield each
+    
+        for each in import_user_file():
+            print(each)
+    """
+    data = config('keaz.keaz.software') # enter sourcehost here
+    """
+    for each in import_user_file():
+        body = {"security_code": each[0]}
+        _id = each[1]
+check slug tomorrow ###
+    """
+    updates = data.get_anything('users')
+    print(updates)
+    """
+    for user in updates:
+        try:
+            print(user)
+        except UnicodeDecodeError:
+            print("Unicode Errror")
 
-
+"""
 
 
 if __name__ == "__main__":
