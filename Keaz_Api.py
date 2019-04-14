@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'} 
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': 'Aqualite12@'}  # pw}
+                'password': '@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
