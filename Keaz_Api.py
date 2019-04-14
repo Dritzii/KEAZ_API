@@ -957,15 +957,15 @@ def main():
         for each in import_user_file():
             print(each)
     """
-<<<<<<< HEAD
+
     data = config('envoy-there.keaz.software') # enter sourcehost here
-=======
->>>>>>> c1c670bac2f620dd390d50de190478d64beec169
+
+
     """
     for each in import_user_file():
         body = {"security_code": each[0]}
         _id = each[1]
-<<<<<<< HEAD
+
 check slug tomorrow ###
     """
 
@@ -973,7 +973,7 @@ check slug tomorrow ###
     print(updates)
 
     """
-=======
+
 check slug tomorrow ##
     updates = data.get_all_bookings('74','2019-03-12','00:00','2019-04-13','00:00')
     print(updates)
