@@ -81,25 +81,21 @@ class config(object):
             yield each
 
 
-    def get_inactive_vehicles(self,page):
-        url = self.api_base + 'vehicles?inactive={}'.format(str(page))
-        try:
-            r = requests.get(url, headers=self.headers)
-            if r.status_code in [200, '200']:
-                print('Successfully grabbed data {}'.format(str(r.status_code)))
-                return(r.json())
-            elif r.status_code in [400,'400']:
-                print('Error with that request {}'.format(str(r.status_code)))
-                return False
-            elif r.status_code in [404, '404']:
-                print("Server has been contacted successfully, but it hasn't been able to find the resources given reason: {}".format(str(r.status_reason)))
-                return False
-            else:
-                print('error {}'.format(str(r.status_code)))
-                return False
-        except:
-            print('error')
-
+    def get_inactive_vehicles(self):
+        i = 0
+        url = self.api_base + 'vehicles/{}?inactive=1'.format(str(i))
+        r = requests.get(url,headers=self.headers)
+        if r.status_code in [200,'200']:
+            print("Successful request")
+            pgcount = r.json()['total_page']
+            for page in range(1, pgcount):
+                print(r.json())
+        elif r.status_code in [400,'400']:
+            print("something is wrong")
+            return(False)
+        else:
+            print("not successful")
+            return(False)
 
     def get_locations(self):
         url = self.api_base + 'locations/cities'
@@ -223,7 +219,7 @@ class config(object):
 #### use this api for CoC
 
     def get_all_bookings(self,id,start,stime,end,etime):
-        url = self.api_base + '/company' + '/{}'.format(str(id)) + 'paging_bookings/' + start + '/' + stime + '/' + end + '/' + etime
+        url = self.api_base + '/company' + '/{}'.format(str(id)) + '/bookings/' + start + '/' + stime + '/' + end + '/' + etime
         try:
             r = requests.get(url, headers=self.headers)
             if r.status_code in [200, '200']:
@@ -961,11 +957,15 @@ def main():
         for each in import_user_file():
             print(each)
     """
+<<<<<<< HEAD
     data = config('envoy-there.keaz.software') # enter sourcehost here
+=======
+>>>>>>> c1c670bac2f620dd390d50de190478d64beec169
     """
     for each in import_user_file():
         body = {"security_code": each[0]}
         _id = each[1]
+<<<<<<< HEAD
 check slug tomorrow ###
     """
 
@@ -973,13 +973,17 @@ check slug tomorrow ###
     print(updates)
 
     """
+=======
+check slug tomorrow ##
+    updates = data.get_all_bookings('74','2019-03-12','00:00','2019-04-13','00:00')
+    print(updates)
+>>>>>>> c1c670bac2f620dd390d50de190478d64beec169
     for user in updates:
         try:
             print(user)
         except UnicodeDecodeError:
             print("Unicode Errror")
-
-"""
+    """
 
 
 if __name__ == "__main__":
