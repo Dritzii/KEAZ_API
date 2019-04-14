@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'} 
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -958,15 +958,15 @@ def main():
             print(each)
     """
     data = config('life-without-barriers.keaz.software') # enter sourcehost here
+    get = data.get_inactive_vehicles()
+    print(get)
     """
     for each in import_user_file():
         body = {"security_code": each[0]}
         _id = each[1]
-check slug tomorrow ###
-    """
+check slug tomorrow ##
     updates = data.get_all_bookings('74','2019-03-12','00:00','2019-04-13','00:00')
     print(updates)
-    """
     for user in updates:
         try:
             print(user)
