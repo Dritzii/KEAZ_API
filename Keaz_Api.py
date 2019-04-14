@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'} 
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -961,15 +961,17 @@ def main():
         for each in import_user_file():
             print(each)
     """
-    data = config('keaz.keaz.software') # enter sourcehost here
+    data = config('envoy-there.keaz.software') # enter sourcehost here
     """
     for each in import_user_file():
         body = {"security_code": each[0]}
         _id = each[1]
 check slug tomorrow ###
     """
-    updates = data.get_anything('users')
+
+    updates = data.get_all_inactive_users()
     print(updates)
+
     """
     for user in updates:
         try:
