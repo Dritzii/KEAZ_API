@@ -969,7 +969,7 @@ def main():
 check slug tomorrow ###
     """
 
-    updates = data.get_all_inactive_users()
+    updates = data.get_anything("branches?inactive=1")
     print(updates)
 
     """
