@@ -969,7 +969,7 @@ def main():
 check slug tomorrow ###
     """
 
-    updates = data.get_anything("branches?inactive=1")
+    updates = data.get_booking("1380178")
     print(updates)
 
     """
