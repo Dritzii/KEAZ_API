@@ -29,7 +29,7 @@ class config(object):
                    'device_type': 'SCRIPT'} 
         #pw = input('Enter your password for Keaz API: ')
         form = {'email': 'john@keaz.co',
-                'password': '@'}  # pw}
+                'password': 'Aqualite12@'}  # pw}
         url = self.api_base + 'login'
         print(headers)
         print(url)
@@ -945,6 +945,7 @@ class yoogo(config):  # yoogo sub class
 
 
 def main():
+    
     """
     def import_user_file():
         import csv
