@@ -52,8 +52,6 @@ def main():
         reader.__next__()
         for each in reader:
             yield each
-        for each in importcsv():
-            print(each)
 
     for each in importcsv():
         lat = each[0]
@@ -61,15 +59,6 @@ def main():
         data = config()
         r = data.reverse_api( lat , lng)
         print(r)
-
-
-
-
-
-
-###    data = config()
-###    r = data.reverse_api("51.952659", "7.632473")
-###    print(r)
 
 if __name__ == "__main__":
     main()
