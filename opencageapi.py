@@ -52,6 +52,8 @@ def main():
         reader.__next__()
         for each in reader:
             yield each
+        for each in reader:
+            print(each)
 
     for each in importcsv():
         lat = each[0]
