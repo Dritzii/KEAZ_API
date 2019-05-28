@@ -14,7 +14,7 @@ class config():
         print(self.base_url)
 
     def reverse_api(self, lat, lng):
-        url = self.base_url + lat + "%2C%20" + lng + "&key=" + self.key + "&language=en&pretty=1"
+        url = self.base_url + lat + "%2C%20" + lng + "&key=" + self.key
         print(url)
         try:
             r = requests.get(url)
@@ -47,19 +47,22 @@ class config():
 def main():
     def importcsv():
         import csv
-        file = open("") ### enter pathway to csv here
+        file = open("C:/Users/John Pham/Desktop/csv.csv")### enter pathway to csv here
         reader = csv.reader(file)
         reader.__next__()
         for each in reader:
             yield each
         for each in importcsv():
             print(each)
-        for each in importcsv():
-            lat = each[0]
-            lng = each[1]
-            data = config()
-            r = data.reverse_api( lat , lng)
-            print(r)
+
+    for each in importcsv():
+        lat = each[0]
+        lng = each[1]
+        data = config()
+        r = data.reverse_api( lat , lng)
+        print(r)
+
+
 
 
 
