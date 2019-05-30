@@ -34,14 +34,16 @@ class config():
         print(url)
         try:
             r = requests.get(url)
+            print(r)
+            print(r.content)
             if r.status_code == [200, '200']:
-                print(r.status_code + " Successful Request")
-            elif r.status_code == [400, '400']:
-                print(r.status_code + "not about to call API")
+                print(r.status_code + " Successful request")
+            elif r.status_code == [404, '404', 401, '401']:
+                print(r.status_code + " unsuccessful request")
             else:
                 print(r.status_code)
         except:
-            print("Failed to get Request")
+            print("failed to get request")
 
 
 def main():
@@ -52,14 +54,14 @@ def main():
         reader.__next__()
         for each in reader:
             yield each
-        for each in reader:
+        for each in importcsv():
             print(each)
 
     for each in importcsv():
         lat = each[0]
         lng = each[1]
         data = config()
-        r = data.reverse_api( lat , lng)
+        r = data.reverse_api(lat , lng)
         print(r)
 
 if __name__ == "__main__":
