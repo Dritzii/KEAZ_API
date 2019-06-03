@@ -22,12 +22,16 @@ class config():
             print(r.content)
             if r.status_code == [200, '200']:
                 print(r.status_code + " Successful request")
+                return(r.json())
             elif r.status_code == [404, '404', 401, '401']:
                 print(r.status_code + " unsuccessful request")
+                return(False)
             else:
                 print(r.status_code)
+                return(False)
         except:
             print("failed to get request")
+            return(False)
 
     def forward_api(self, address):
         url = self.base_url + str(address) + "+&key=" + str(self.key)
@@ -38,12 +42,16 @@ class config():
             print(r.content)
             if r.status_code == [200, '200']:
                 print(r.status_code + " Successful request")
+                return(r.json())
             elif r.status_code == [404, '404', 401, '401']:
                 print(r.status_code + " unsuccessful request")
+                return(False)
             else:
                 print(r.status_code)
+                return(False)
         except:
             print("failed to get request")
+            return(False)
 
 
 def main():
@@ -63,6 +71,9 @@ def main():
         data = config()
         r = data.reverse_api(lat , lng)
         print(r)
+
+
+
 
 if __name__ == "__main__":
     main()
