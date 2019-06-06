@@ -11,24 +11,24 @@ class NumberGuessingGame():
      
     def randomnumbergame(self):
         player_number = int(input("what is your number? "))
-        number = random.randint(1,3)
+        number = random.randint(1,99)
         player_guesses = 5
-        guesses = 1
+        guesses = 0
         while player_number != number and player_guesses > guesses :
             if player_number > number:
                 print("try lower")
                 player_guesses = player_guesses - 1
                 print("Player guesses left {}".format(str(player_guesses)))
                 player_number = int(input("what is your number? "))
-            if player_number < number:
+            elif player_number < number:
                 print("try higher")
                 print("Player guesses left {}".format(str(player_guesses)))
                 player_guesses = player_guesses - 1
                 player_number = int(input("what is your number? "))
-            if player_number == number:
-                print("You have done it well done :) {}".format(str(self.player_name)))
             else:
-                print("Number was actually {} loser".format(str(number)))
+                print("You have done it well done :)")
+        else:
+            print("Good Job")
             
 
 
